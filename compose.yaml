@@ -4,7 +4,9 @@ services:
     environment:
       - 'MYSQL_DATABASE=cinema_manager'
       - 'MYSQL_PASSWORD=admin'
-      - 'MYSQL_ROOT_PASSWORD=root'
+      - 'MYSQL_ROOT_PASSWORD=admin'
       - 'MYSQL_USER=admin'
     ports:
-      - '3306'
+      - "3306:3306"
+    expose:
+      - "3306"
