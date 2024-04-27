@@ -1,5 +1,6 @@
 package br.com.libdolf.cinemamanager.entities.film;
 
+import br.com.libdolf.cinemamanager.controllers.film.dtos.FilmRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ public class Film {
     private String director;
     private LocalDate releaseDate;
     private LocalDate endDate;
-    private Boolean isInTheaters;
+    private Boolean isOnShowing;
     @ElementCollection
     private List<String> categories;
     @CreationTimestamp
@@ -37,15 +38,25 @@ public class Film {
         this.director = director;
         this.releaseDate = releaseDate;
         this.endDate = endDate;
-        this.isInTheaters = isInTheaters();
+        this.isOnShowing = isOnShowing();
         this.categories = categories;
     }
 
 
-    public Boolean isInTheaters(){
+    public Boolean isOnShowing(){
         var dateNow = LocalDate.now();
 
         return (dateNow.isEqual(releaseDate) || dateNow.isAfter(endDate)) &&
                 (dateNow.isEqual(endDate) || dateNow.isBefore(endDate));
+    }
+
+    public void update(FilmRequest request) {
+        this.title = request.title();
+        this.description = request.description();
+        this.director = request.director();
+        this.releaseDate = request.releaseDate();
+        this.endDate = request.endDate();
+        this.isOnShowing = isOnShowing();
+        this.categories = request.categories();
     }
 }
